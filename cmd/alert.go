@@ -15,9 +15,7 @@ var projectName string
 var addAlertCmd = &cobra.Command{
 	Use:   "addAlert <IP/Range>",
 	Short: "Add an IP to the database alert table",
-	Long: `Add an IP or range to the database alert table. 
-When the daemon is executed an alert appears
-if that IP appears in the alerts table (IP or range)
+	Long: `Add an IP or range to the database alert table. When the daemon is executed an alert appears if that IP appears in the alerts table (IP or range).
 For example:
 		bntoolkit addAlert 1.1.0.0/16`,
 	Args: cobra.MinimumNArgs(1),

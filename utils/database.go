@@ -120,7 +120,9 @@ func InitDB(db *sql.DB, debug bool, verbose bool) error {
 	}
 
 	//read sql file
-	b, err := ioutil.ReadFile("sql.sql") // just pass the file name
+	gopath := os.Getenv("GOPATH")
+
+	b, err := ioutil.ReadFile(gopath + "/src/github.com/RaulCalvoLaorden/bntoolkit/sql.sql") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
 	}
