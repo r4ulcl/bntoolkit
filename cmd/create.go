@@ -43,8 +43,8 @@ func init() {
 
 	createCmd.PersistentFlags().StringVarP(&outfile, "outfile", "o", "output", "Save the generated .torrent to this filename")
 	//createCmd.PersistentFlags().StringVarP(&file, "file", "f", "", "File to create")
-	createCmd.PersistentFlags().Int64VarP(&piecesize, "piecesize", "p", 2*1024, "Save the generated .torrent to this filename")
-	createCmd.PersistentFlags().StringVarP(&tracker, "tracker", "t", "", "Save the generated .torrent to this filename")
-	createCmd.PersistentFlags().StringVarP(&comment, "comment", "m", "", "Save the generated .torrent to this filename")
+	createCmd.PersistentFlags().Int64VarP(&piecesize, "piecesize", "p", 2*1024, "Pieze size to the .torrent (bytes)")
+	createCmd.PersistentFlags().StringVarP(&tracker, "tracker", "t", "", "Default tracker to the .torrent")
+	createCmd.PersistentFlags().StringVarP(&comment, "comment", "m", "", "Comment for the .torrent")
 	//createCmd.PersistentFlags().BoolVarP(&private, "private", "p", false, "Save the generated .torrent to this filename")
 }

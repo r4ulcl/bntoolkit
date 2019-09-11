@@ -18,7 +18,7 @@ var addMonitorCmd = &cobra.Command{
 	Short: "Add a hash to the database monitor table",
 	Long: `Add a hash to the database monitor table. 
 For example:
-	bntookit addMonitor e84213a794f3ccd890382a54a64ca68b7e925433`,
+	bntoolkit addMonitor e84213a794f3ccd890382a54a64ca68b7e925433`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addMonitor called")
@@ -34,10 +34,8 @@ For example:
 
 		hash := args[0]
 		if len(hash) == 40 {
-			err := utils.InsertProject(db, debug, verbose, projectName)
-			if err != nil {
-				fmt.Println(err)
-			}
+			utils.InsertProject(db, debug, verbose, projectName)
+
 			utils.InsertHash(db, debug, verbose, hash, "cli")
 			utils.InsertMonitor(db, debug, verbose, hash, userName, projectName)
 		} else {

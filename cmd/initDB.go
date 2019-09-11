@@ -12,7 +12,11 @@ import (
 var initDBCmd = &cobra.Command{
 	Use:   "initDB",
 	Short: "Create the database and its tables",
-	Long: `Create the database and its tables. This command is required the first time the database is connected.
+	Long: `Create the database and it's tables. This command is required the first time the database is connected.
+Recommended DB:
+	mkdir ~/postgres #or any folder to store data
+	sudo docker stop hashpostgres ; sudo docker rm hashpostgres #delete if it exists
+	sudo docker run -d -p 5432:5432 --mount type=bind,source=$HOME/postgres/,target=/var/lib/postgresql/data --name hashpostgres -e POSTGRES_PASSWORD=postgres99 postgres
 For example:
 	bntoolkit initDB`,
 	Run: func(cmd *cobra.Command, args []string) {

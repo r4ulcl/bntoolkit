@@ -599,7 +599,7 @@ func SelectPossiblesTable(db *sql.DB, debug bool, verbose bool, projectName stri
 	if err != nil {
 		return err
 	}
-	fmt.Println("id \t|\t hash \t\t\t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num ")
+	fmt.Println("id \t|\t hash \t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t projecName")
 	for rows.Next() {
 		var id int
 		var hash string
@@ -675,7 +675,7 @@ func SelectValidTable(db *sql.DB, debug bool, verbose bool, projectName string) 
 	if err != nil {
 		return err
 	}
-	fmt.Println("id \t|\t hash \t\t\t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num ")
+	fmt.Println("id \t|\t hash \t\t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num ")
 	for rows.Next() {
 		var id int
 		var hash string
@@ -699,7 +699,7 @@ func SelectDownloadTable(db *sql.DB, debug bool, verbose bool, projectName strin
 	if err != nil {
 		return err
 	}
-	fmt.Println("id \t|\t\t\t\t\t hash \t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t \"projectName\"")
+	fmt.Println("id \t|\t\t\t\t hash \t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t \"projectName\"")
 	for rows.Next() {
 		var id int
 		var hash string
@@ -740,12 +740,12 @@ func GetHashes(db *sql.DB, debug bool, verbose bool) ([][]byte, error) {
 }
 
 //QueryHash from database
-func QueryHash(db *sql.DB, debug bool, verbose bool, sql string, hash string, source string) (string, error) {
+func QueryHash(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash string, source string) (string, error) {
 	salida := ""
 
 	where := ""
-	if sql != "" {
-		where = sql
+	if sqlQuery != "" {
+		where = sqlQuery
 	} else if hash != "" {
 		where = " where hash='" + hash + "'"
 		if source != "" {
@@ -755,22 +755,24 @@ func QueryHash(db *sql.DB, debug bool, verbose bool, sql string, hash string, so
 		where = " where source='" + source + "'"
 	}
 	//fmt.Println("SELECT hash , source , first_seen FROM hash " + where + ";")
-	rows, err := db.Query("SELECT hash , source , first_seen FROM hash " + where + ";")
+	rows, err := db.Query("SELECT hash , source , first_seen, path, name FROM hash " + where + ";")
 
 	if err != nil {
 		return "", err
 	}
-	salida += "\t\t\t hash \t\t\t\t|\t source \t|\t\t first_seen " + "\n"
+	salida += "\t\t\t hash \t\t\t\t|\t source \t|\t\t first_seen \t\t\t|\t\t path \t\t|\t\t name " + "\n"
 	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
 	for rows.Next() {
 		var hash string
 		var source string
 		var firstSeen string
-		err := rows.Scan(&hash, &source, &firstSeen)
+		var path sql.NullString
+		var name sql.NullString
+		err := rows.Scan(&hash, &source, &firstSeen, &path, &name)
 		if err != nil {
 			return "", err
 		}
-		salida += "\t" + hash + " \t|\t " + source + " \t\t|\t " + firstSeen + "\n"
+		salida += "\t" + hash + " \t|\t " + source + " \t\t|\t " + firstSeen + "\t\t|\t\t" + path.String + "\t\t|\t\t" + name.String + "\n"
 		//fmt.Printf("%3v \t|\t %8v \t|\t %6v \n", hash, source, first_seen)
 	}
 	return salida, nil
@@ -792,7 +794,7 @@ func QueryPossibles(db *sql.DB, debug bool, verbose bool, sql string, hash strin
 	if err != nil {
 		return "", err
 	}
-	salida += "id \t|\t hash \t\t\t\t\t\t\t\t|    download \t|\t valid \t|\t Possible " + "\n"
+	salida += "id \t|\t\t\t hash \t\t\t\t|    download \t|\t valid \t|\t Possible " + "\n"
 	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
 	for rows.Next() {
 		var id string
@@ -821,12 +823,12 @@ func QueryProjects(db *sql.DB, debug bool, verbose bool, sql string, nombre stri
 		where = " where nombre='" + nombre + "'"
 	}
 	//fmt.Println("SELECT hash , source , first_seen FROM hash " + where + ";")
-	rows, err := db.Query("SELECT nombre, fecha FROM projects " + where + ";")
+	rows, err := db.Query("SELECT \"projectName\", date FROM project " + where + ";")
 
 	if err != nil {
 		return "", err
 	}
-	salida += "nombre \t|\t fecha" + "\n"
+	salida += "projectName \t|\t date" + "\n"
 	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
 	for rows.Next() {
 		var nombre string
@@ -872,12 +874,12 @@ func QueryIP(db *sql.DB, debug bool, verbose bool, sql string, ip string) (strin
 }
 
 //QueryMonitor SELECT from the database monitor table
-func QueryMonitor(db *sql.DB, debug bool, verbose bool, sql string, hash string, user string) (string, error) {
+func QueryMonitor(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash string, user string) (string, error) {
 	salida := ""
 
 	where := ""
-	if sql != "" {
-		where = sql
+	if sqlQuery != "" {
+		where = sqlQuery
 	} else if hash != "" {
 		where = " where hash='" + hash + "'"
 		if user != "" {
@@ -887,21 +889,23 @@ func QueryMonitor(db *sql.DB, debug bool, verbose bool, sql string, hash string,
 		where = " where user='" + user + "'"
 	}
 	//fmt.Println("SELECT hash , source , first_seen FROM hash " + where + ";")
-	rows, err := db.Query("SELECT hash, username FROM monitor " + where + ";")
+	rows, err := db.Query("SELECT hash, username, \"projectName\" FROM monitor " + where + ";")
 
 	if err != nil {
 		return "", err
 	}
-	salida += "hash \t\t\t\t\t\t\t\t|\t user" + "\n"
+	salida += "hash \t\t\t\t\t\t|\t username \t|\t projectName" + "\n"
 	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
 	for rows.Next() {
-		var hash string
-		var user string
-		err := rows.Scan(&hash, &user)
+		var hash sql.NullString
+		var user sql.NullString
+		var projectName sql.NullString
+
+		err := rows.Scan(&hash, &user, &projectName)
 		if err != nil {
 			return "", err
 		}
-		salida += hash + " \t|\t " + user + "\n"
+		salida += hash.String + " \t|\t " + user.String + " \t|\t " + projectName.String + "\n"
 		//fmt.Printf("%3v \t|\t %8v \t|\t %6v \n", hash, source, first_seen)
 	}
 	return salida, nil

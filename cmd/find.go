@@ -149,7 +149,7 @@ For example:
 func init() {
 	rootCmd.AddCommand(findCmd)
 
-	findCmd.PersistentFlags().StringVarP(&projectName, "projectName", "p", "default", "Monitoring projectName")
+	findCmd.PersistentFlags().StringVarP(&projectName, "projectName", "p", "default", "ProjectName to database")
 	findCmd.PersistentFlags().StringVarP(&tracker, "tracker", "", "", "<not implemented> tracker")
 	findCmd.PersistentFlags().BoolVarP(&noadd, "no-add", "n", false, "<not implemented> no add to database")
 	findCmd.PersistentFlags().IntVarP(&timeout, "timeout", "t", 5, "timeout download in minutes")

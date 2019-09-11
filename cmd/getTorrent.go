@@ -100,7 +100,7 @@ func init() {
 
 	//getTorrentCmd.PersistentFlags().StringVarP(&sha1, "sha1", "s", "", "sha1 hash to download torrent file")
 
-	getTorrentCmd.PersistentFlags().StringVarP(&path, "path", "p", "", "path to save torrent file")
+	getTorrentCmd.PersistentFlags().StringVarP(&path, "path", "p", ".", "path to save torrent file")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
