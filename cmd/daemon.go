@@ -9,7 +9,7 @@ import (
 )
 
 //var projectName string
-var scrape bool
+var crawlDaemon bool
 
 // daemonCmd represents the daemon command
 var daemonCmd = &cobra.Command{
@@ -22,7 +22,7 @@ For example:
 		fmt.Println("daemon called")
 
 		//scrape
-		if scrape {
+		if crawlDaemon {
 			go ScrapeCmd()
 			waitGroup.Add(1)
 		}
@@ -46,8 +46,8 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	daemonCmd.PersistentFlags().StringVarP(&projectName, "project", "p", "default", "Monitoring project")
-	daemonCmd.PersistentFlags().BoolVarP(&scrape, "scrape", "s", false, "Scrape DHT")
+	daemonCmd.PersistentFlags().StringVarP(&projectName, "projectName", "p", "default", "Monitoring project")
+	daemonCmd.PersistentFlags().BoolVarP(&crawlDaemon, "crawl", "s", false, "Crawl DHT")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

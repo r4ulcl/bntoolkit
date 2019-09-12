@@ -760,7 +760,7 @@ func QueryHash(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash strin
 	if err != nil {
 		return "", err
 	}
-	salida += "\t\t\t hash \t\t\t\t|\t source \t|\t\t first_seen \t\t\t|\t\t path \t\t|\t\t name " + "\n"
+	salida += "\t\t\t hash \t\t\t\t|\t source \t\t|\t\t first_seen \t\t\t|\t\t path \t\t|\t\t name " + "\n"
 	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
 	for rows.Next() {
 		var hash string
@@ -772,7 +772,7 @@ func QueryHash(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash strin
 		if err != nil {
 			return "", err
 		}
-		salida += "\t" + hash + " \t|\t " + source + " \t\t|\t " + firstSeen + "\t\t|\t\t" + path.String + "\t\t|\t\t" + name.String + "\n"
+		salida += "\t" + hash + " \t|\t   " + source + "   \t\t|\t " + firstSeen + "\t\t|\t\t" + path.String + "\t\t|\t\t" + name.String + "\n"
 		//fmt.Printf("%3v \t|\t %8v \t|\t %6v \n", hash, source, first_seen)
 	}
 	return salida, nil
