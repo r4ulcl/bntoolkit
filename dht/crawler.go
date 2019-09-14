@@ -3,7 +3,9 @@ package dht
 import (
 	"database/sql"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 
@@ -14,41 +16,11 @@ import (
 //ScrapeTrackers scrape common trackers for the hashes
 func ScrapeTrackers(db *sql.DB, debug bool, verbose bool, projectName string) {
 	//https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt
-	var trackers [34]string
-	trackers[0] = "udp://tracker.coppersurfer.tk:6969/announce"
-	trackers[1] = "udp://tracker.internetwarriors.net:1337/announce"
-	trackers[2] = "udp://tracker.opentrackr.org:1337/announce"
-	trackers[3] = "udp://9.rarbg.to:2710/announce"
-	trackers[4] = "udp://exodus.desync.com:6969/announce"
-	trackers[5] = "udp://tracker1.itzmx.com:8080/announce"
-	trackers[6] = "udp://explodie.org:6969/announce"
-	trackers[7] = "udp://ipv4.tracker.harry.lu:80/announce"
-	trackers[8] = "udp://open.demonii.si:1337/announce"
-	trackers[9] = "udp://denis.stalker.upeer.me:6969/announce"
-	trackers[10] = "udp://thetracker.org:80/announce"
-	trackers[11] = "udp://bt.xxx-tracker.com:2710/announce"
-	trackers[12] = "udp://tracker.torrent.eu.org:451/announce"
-	trackers[13] = "udp://tracker.tiny-vps.com:6969/announce"
-	trackers[14] = "udp://tracker.port443.xyz:6969/announce"
-	trackers[15] = "udp://retracker.lanta-net.ru:2710/announce"
-	trackers[16] = "udp://tracker.uw0.xyz:6969/announce"
-	trackers[17] = "udp://tracker.iamhansen.xyz:2000/announce"
-	trackers[18] = "udp://open.stealth.si:80/announce"
-	trackers[19] = "udp://zephir.monocul.us:6969/announce"
-	trackers[20] = "udp://tracker.vanitycore.co:6969/announce"
-	trackers[21] = "udp://tracker.cyberia.is:6969/announce"
-	trackers[22] = "udp://tracker4.itzmx.com:2710/announce"
-	trackers[23] = "udp://tracker1.wasabii.com.tw:6969/announce"
-	trackers[24] = "udp://tracker.swateam.org.uk:2710/announce"
-	trackers[25] = "udp://tracker.kamigami.org:2710/announce"
-	trackers[26] = "udp://tracker.filepit.to:6969/announce"
-	trackers[27] = "udp://tracker.dler.org:6969/announce"
-	trackers[28] = "udp://torrentclub.tech:6969/announce"
-	trackers[29] = "udp://pubt.in:2710/announce"
-	trackers[30] = "udp://bittracker.ru:6969/announce"
-	trackers[31] = "udp://amigacity.xyz:6969/announce"
-	trackers[32] = "udp://tracker.justseed.it:1337/announce"
-	trackers[33] = "udp://packages.crunchbangplusplus.org:6969/announce"
+	trackers, err := getTrackers(verbose, debug)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	infohash, err := utils.GetHashes(db, debug, verbose)
 	if err != nil {
 		log.Fatal(err)
@@ -69,6 +41,9 @@ func scrapeTracker(db *sql.DB, debug bool, verbose bool, tracker string, infohas
 	// Be sure to provide infohash that are 40 hexadecimal characters long only.
 
 	// Create a new instance of the library and specify the torrent tracker to use.
+	if tracker == "" {
+		return
+	}
 	s, err := goscrape.New(tracker)
 	if err != nil {
 		if debug {
@@ -259,4 +234,20 @@ VALUES `
 			time.Sleep(time.Second)
 		}
 	}
+}
+
+func getTrackers(verbose, debug bool) ([]string, error) {
+	url := "https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt"
+
+	req, _ := http.NewRequest("GET", url, nil)
+	res, _ := http.DefaultClient.Do(req)
+	body, _ := ioutil.ReadAll(res.Body)
+	defer res.Body.Close()
+
+	trackers := strings.Split(string(body), "\n\n")
+
+	if debug {
+		fmt.Println(trackers)
+	}
+	return trackers, nil
 }

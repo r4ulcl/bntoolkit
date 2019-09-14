@@ -307,16 +307,16 @@ func InsertIP(db *sql.DB, debug bool, verbose bool, ip string, projectName strin
 }
 
 //InsertDownload to the database
-func InsertDownload(db *sql.DB, debug bool, verbose bool, ip string, port int, hash string) error {
+func InsertDownload(db *sql.DB, debug bool, verbose bool, ip string, port int, hash string, projectName string) error {
 
 	sqlStatement := `
-		INSERT INTO download(ip, port, hash, date)
-		VALUES($1,$2,$3,current_timestamp)
+		INSERT INTO download(ip, port, hash, date, "projectName")
+		VALUES($1,$2,$3,current_timestamp,$4)
 		RETURNING ip`
 	id := ""
 
 	if debug {
-		log.Println("Insert download", ip, port, hash)
+		log.Println("Insert download", ip, port, hash, projectName)
 	}
 
 	err := db.QueryRow(sqlStatement, ip, port, hash).Scan(&id)
@@ -592,32 +592,6 @@ func CheckExist(db *sql.DB, debug bool, verbose bool, hash string) (bool, error)
 
 var waitGroup sync.WaitGroup
 
-//SelectPossiblesTable form posibles table
-func SelectPossiblesTable(db *sql.DB, debug bool, verbose bool, projectName string) error {
-
-	rows, err := db.Query("SELECT id, hash, download, valid, possible, num, \"projectName\"  FROM possibles where Possible=True")
-	if err != nil {
-		return err
-	}
-	fmt.Println("id \t|\t hash \t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t projecName")
-	for rows.Next() {
-		var id int
-		var hash string
-		var download bool
-		var valid bool
-		var possible bool
-		var num int
-		var projectName string
-		err := rows.Scan(&id, &hash, &download, &valid, &possible, &num, &projectName)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("%3v \t|\t %8v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %8v \n", id, hash, download, valid, possible, num, projectName)
-	}
-	//time.Sleep(time.Minute)
-	return nil
-}
-
 //DownloadPossibles Get and download (torrentLib) from possibles where possible true
 func DownloadPossibles(db *sql.DB, timeout int, debug bool, verbose bool, projectName string) error {
 	rows, err := db.Query("SELECT id, hash, download, valid, possible, num FROM possibles where Possible=True")
@@ -668,14 +642,13 @@ func DownloadValid(db *sql.DB, timeout int, debug bool, verbose bool, projectNam
 	return nil
 }
 
-//SelectValidTable from the dtabase (possibles)
-func SelectValidTable(db *sql.DB, debug bool, verbose bool, projectName string) error {
-
-	rows, err := db.Query("SELECT id, hash, download, valid, possible, num FROM possibles where Valid=True")
+//SelectPossiblesWhere columnTrue=True from the database. Possibles values: download, valid and possible
+func SelectPossiblesWhere(columnTrue string, db *sql.DB, debug bool, verbose bool, projectName string) error {
+	rows, err := db.Query("SELECT id, hash, download, valid, possible, num, \"projectName\" FROM possibles where " + columnTrue + "=True")
 	if err != nil {
 		return err
 	}
-	fmt.Println("id \t|\t hash \t\t\t\t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num ")
+	fmt.Println(" id \t|\t\t\t hash \t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t projectName")
 	for rows.Next() {
 		var id int
 		var hash string
@@ -683,38 +656,14 @@ func SelectValidTable(db *sql.DB, debug bool, verbose bool, projectName string) 
 		var valid bool
 		var possible bool
 		var num int
-		err := rows.Scan(&id, &hash, &download, &valid, &possible, &num)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("%3v \t|\t %8v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %6v\n", id, hash, download, valid, possible, num)
-	}
-	//time.Sleep(time.Minute)
-	return nil
-}
-
-//SelectDownloadTable from the database
-func SelectDownloadTable(db *sql.DB, debug bool, verbose bool, projectName string) error {
-	rows, err := db.Query("SELECT id, hash, download, valid, possible, num, \"projectName\" FROM possibles where download=True")
-	if err != nil {
-		return err
-	}
-	fmt.Println("id \t|\t\t\t\t hash \t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t \"projectName\"")
-	for rows.Next() {
-		var id int
-		var hash string
-		var download bool
-		var valid bool
-		var Possible bool
-		var num int
 		var projectName string
-		err := rows.Scan(&id, &hash, &download, &valid, &Possible, &num, &projectName)
+		err := rows.Scan(&id, &hash, &download, &valid, &possible, &num, &projectName)
 		if err != nil {
 			return err
 		}
-		fmt.Printf("%3v \t|\t %8v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %v\n", id, hash, download, valid, Possible, num, projectName)
+		fmt.Printf("%3v \t|\t %8v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %8v \n", id, hash, download, valid, possible, num, projectName)
+
 	}
-	waitGroup.Wait()
 	//time.Sleep(time.Minute)
 	return nil
 }
@@ -789,26 +738,28 @@ func QueryPossibles(db *sql.DB, debug bool, verbose bool, sql string, hash strin
 		where = " where hash='" + hash + "'"
 	}
 	//fmt.Println("SELECT hash , source , first_seen FROM hash " + where + ";")
-	rows, err := db.Query("SELECT id, hash, download, valid, possible FROM possibles " + where + ";")
+	rows, err := db.Query("SELECT id, hash, download, valid, possible, num, \"projectName\" FROM possibles " + where + ";")
 
 	if err != nil {
 		return "", err
 	}
-	salida += "id \t|\t\t\t hash \t\t\t\t|    download \t|\t valid \t|\t Possible " + "\n"
-	//fmt.Println("hash \t\t\t\t\t\t\t\t|\t source \t|\t first_seen")
+	salida += (" id \t|\t\t\t hash \t\t\t\t|\t download \t|\t valid \t\t|\t Possible \t|\t num \t\t|\t projectName\n")
 	for rows.Next() {
-		var id string
+		var id int
 		var hash string
-		var download string
-		var valid string
-		var possible string
-		err := rows.Scan(&id, &hash, &download, &valid, &possible)
+		var download bool
+		var valid bool
+		var possible bool
+		var num int
+		var projectName string
+		err := rows.Scan(&id, &hash, &download, &valid, &possible, &num, &projectName)
 		if err != nil {
 			return "", err
 		}
-		salida += id + " \t|\t " + hash + " \t|\t " + download + " \t|\t " + valid + " \t|\t " + possible + "\n"
-		//fmt.Printf("%3v \t|\t %8v \t|\t %6v \n", hash, source, first_seen)
+		salida += fmt.Sprintf("%3v \t|\t %8v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %6v \t|\t %8v \n", id, hash, download, valid, possible, num, projectName)
+
 	}
+	//time.Sleep(time.Minute)
 	return salida, nil
 }
 
@@ -976,12 +927,12 @@ func QueryAlert(db *sql.DB, debug bool, verbose bool, sql string, ip string, use
 }
 
 //GetMonitor from the database
-func GetMonitor(db *sql.DB, debug bool, verbose bool) ([]string, error) {
+func GetMonitor(db *sql.DB, debug bool, verbose bool, projectName string) ([]string, error) {
 	var infohashes []string
-	rows, err := db.Query("SELECT hash FROM monitor")
+	rows, err := db.Query("SELECT hash FROM monitor where \"projectName\"='" + projectName + "'")
 	if err != nil {
 		// handle this error better than this
-		panic(err)
+		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {

@@ -3,7 +3,6 @@ package dht
 import (
 	"database/sql"
 	"encoding/hex"
-	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -23,9 +22,10 @@ func DaemonPeers(cfgFile string, debug bool, verbose bool, projectName string) {
 	defer db.Close()
 
 	//for {
-	infohashes, err := utils.GetMonitor(db, debug, verbose)
+	infohashes, err := utils.GetMonitor(db, debug, verbose, projectName)
 	if err != nil {
 		log.Println(err)
+		log.Println("Not hashes in the database to monitor, sleep 1 minute")
 		time.Sleep(time.Minute)
 	}
 	for _, hash := range infohashes { //monitor all hashes
@@ -43,7 +43,7 @@ func DaemonPeers(cfgFile string, debug bool, verbose bool, projectName string) {
 func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName string) {
 	defer waitVar.Done()
 
-	fmt.Println("starting get peers lib")
+	//fmt.Println("starting get peers lib")
 
 	var Infohash [][20]byte
 
@@ -54,7 +54,7 @@ func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName 
 
 	Infohash = [][20]byte{aux}
 
-	fmt.Println(Infohash)
+	//fmt.Println(Infohash)
 
 	s, err := dht.NewServer(nil)
 	if err != nil {
@@ -63,6 +63,8 @@ func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName 
 	defer s.Close()
 	addrs := make(map[[20]byte]map[string]struct{}, len(Infohash))
 	ih := Infohash[0]
+	utils.InsertProject(db, debug, verbose, projectName)
+
 	for {
 		a, err := s.Announce(ih, 0, true)
 		if err != nil {
@@ -79,7 +81,7 @@ func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName 
 					ip := p.IP.String()
 					port := p.Port
 					utils.InsertIP(db, debug, verbose, ip, projectName)
-					utils.InsertDownload(db, debug, verbose, ip, port, hash)
+					utils.InsertDownload(db, debug, verbose, ip, port, hash, projectName)
 					addrs[ih][s] = struct{}{}
 				}
 			}

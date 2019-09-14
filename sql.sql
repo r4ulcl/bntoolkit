@@ -72,7 +72,8 @@ CREATE TABLE download(
  date Timestamp NOT NULL,
  ip Inet NOT NULL,
  port int,
- hash Text NOT NULL
+ hash Text NOT NULL,
+ "projectName" Text
 )
 ;
 
@@ -191,7 +192,7 @@ CREATE OR REPLACE FUNCTION notify_event() RETURNS TRIGGER AS $$
 
         --if its in alert notify
         IF (counter != 0 ) THEN
-            response = 'DATE: ' || NEW.date::text || ', IP: ' ||NEW.ip::text || ', HASH: ' || NEW.hash::text ;
+            response = 'DATE: ' || NEW.date::text || ', IP: ' ||NEW.ip::text || ', HASH: ' || NEW.hash::text || ', projectName: ' || NEW."projectName"::text ;
             PERFORM pg_notify('events', response);
         END IF;
 
@@ -199,7 +200,6 @@ CREATE OR REPLACE FUNCTION notify_event() RETURNS TRIGGER AS $$
     END;
     
 $$ LANGUAGE plpgsql;
-
 
 
 

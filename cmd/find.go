@@ -66,8 +66,8 @@ For example:
 		case 0:
 			dht.WorkersTorrents(cfgFile, debug, verbose, file, projectName) //create hashes and check in db
 			dht.ScrapeTrackers(db, debug, verbose, projectName)             //scrape trackers
-			fmt.Println("Possibles")
-			err := utils.SelectPossiblesTable(db, debug, verbose, projectName) //get only possibles
+			fmt.Println("Possibles (possibles hashes to the file)")
+			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles
 			if err != nil {
 				log.Println(err)
 			}
@@ -75,13 +75,13 @@ For example:
 			dht.WorkersTorrents(cfgFile, debug, verbose, file, projectName) //create hashes and check in db
 			dht.ScrapeTrackers(db, debug, verbose, projectName)             //scrape trackers
 			dht.SearchDHT(db, debug, verbose, projectName)                  //search DHT
-			fmt.Println("Possibles")
-			err := utils.SelectPossiblesTable(db, debug, verbose, projectName) //get only possibles
+			fmt.Println("Possibles (possibles hashes to the file)")
+			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles
 			if err != nil {
 				log.Println(err)
 			}
-			fmt.Println("Valid")
-			err = utils.SelectValidTable(db, debug, verbose, projectName) //get only valids
+			fmt.Println("Valid (found in DHT)")
+			err = utils.SelectPossiblesWhere("valid", db, debug, verbose, projectName) //get only valids
 			if err != nil {
 				log.Println(err)
 			}
@@ -91,12 +91,12 @@ For example:
 			//dht.ScrapeDHT(db, debug, verbose)                  //search DHT
 
 			fmt.Println("Possibles (possibles hashes to the file)")
-			err := utils.SelectPossiblesTable(db, debug, verbose, projectName) //get only possibles
+			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles
 			if err != nil {
 				log.Println(err)
 			}
 			fmt.Println("Valid (found in DHT)")
-			err = utils.SelectValidTable(db, debug, verbose, projectName) //get only valids
+			err = utils.SelectPossiblesWhere("valid", db, debug, verbose, projectName) //get only valids
 			if err != nil {
 				log.Println(err)
 			}
@@ -106,7 +106,7 @@ For example:
 				log.Println(err)
 			}
 			fmt.Println("Downloaded")
-			err = utils.SelectDownloadTable(db, debug, verbose, projectName) //get only download
+			err = utils.SelectPossiblesWhere("download", db, debug, verbose, projectName) //get only download
 			if err != nil {
 				log.Println(err)
 			}
@@ -116,13 +116,13 @@ For example:
 			dht.ScrapeTrackers(db, debug, verbose, projectName)             //scrape trackers
 			//dht.ScrapeDHT(db, debug, verbose)                  //search DHT
 
-			fmt.Println("Possibles")
-			err := utils.SelectPossiblesTable(db, debug, verbose, projectName) //get only possibles
+			fmt.Println("Possibles (possibles hashes to the file)")
+			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles
 			if err != nil {
 				log.Println(err)
 			}
-			fmt.Println("Valid")
-			err = utils.SelectValidTable(db, debug, verbose, projectName) //get only valids
+			fmt.Println("Valid (found in DHT)")
+			err = utils.SelectPossiblesWhere("valid", db, debug, verbose, projectName) //get only valids
 			if err != nil {
 				log.Println(err)
 			}
@@ -132,7 +132,7 @@ For example:
 				log.Println(err)
 			}
 			fmt.Println("Downloaded")
-			err = utils.SelectDownloadTable(db, debug, verbose, projectName) //get only download
+			err = utils.SelectPossiblesWhere("download", db, debug, verbose, projectName) //get only download
 			if err != nil {
 				log.Println(err)
 			}

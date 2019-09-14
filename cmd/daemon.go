@@ -28,7 +28,7 @@ For example:
 		}
 
 		//alert monitor
-		go utils.MonitorAlert(cfgFile, debug, verbose)
+		go utils.MonitorAlert(cfgFile, debug, verbose, projectName)
 		waitGroup.Add(1)
 
 		//Starting monitor

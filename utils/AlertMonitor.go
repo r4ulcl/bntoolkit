@@ -48,16 +48,19 @@ package utils
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/lib/pq"
 )
 
-func waitForNotification(l *pq.Listener, verbose bool) {
+func waitForNotification(l *pq.Listener, verbose bool, projectName string) {
 	for {
 		select {
 		case n := <-l.Notify:
-			fmt.Println(string(n.Extra))
+			if strings.Contains(string(n.Extra), projectName) {
+				fmt.Println(string(n.Extra))
+			}
 			return
 		case <-time.After(120 * time.Second):
 			if verbose {
@@ -76,7 +79,7 @@ func waitForNotification(l *pq.Listener, verbose bool) {
 }
 
 //MonitorAlert create a listener for the PostgreSQL database for alerts and print them.
-func MonitorAlert(configfile string, debug bool, verbose bool) {
+func MonitorAlert(configfile string, debug bool, verbose bool, projectName string) {
 
 	config, err := GetConfig(configfile, debug, verbose)
 	if err != nil {
@@ -104,6 +107,6 @@ func MonitorAlert(configfile string, debug bool, verbose bool) {
 
 	fmt.Println("Start monitoring PostgreSQL...")
 	for {
-		waitForNotification(listener, verbose)
+		waitForNotification(listener, verbose, projectName)
 	}
 }

@@ -34,6 +34,7 @@ For example:
 
 		ip := args[0]
 
+		utils.InsertProject(db, debug, verbose, projectName)
 		utils.InsertIP(db, debug, verbose, ip, projectName) //if return error exist
 
 		err = utils.InsertAlert(db, debug, verbose, ip, "test", "username", projectName)
