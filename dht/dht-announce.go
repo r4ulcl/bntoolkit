@@ -3,6 +3,7 @@ package dht
 import (
 	"database/sql"
 	"encoding/hex"
+	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -80,8 +81,14 @@ func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName 
 					}
 					ip := p.IP.String()
 					port := p.Port
-					utils.InsertIP(db, debug, verbose, ip, projectName)
-					utils.InsertDownload(db, debug, verbose, ip, port, hash, projectName)
+					err := utils.InsertIP(db, debug, verbose, ip, projectName)
+					if err != nil && debug {
+						fmt.Println("Error InsertIP", err)
+					}
+					err = utils.InsertDownload(db, debug, verbose, ip, port, hash, projectName)
+					if err != nil && debug {
+						fmt.Println("Error InsertDownload", err, ip, port, hash, projectName)
+					}
 					addrs[ih][s] = struct{}{}
 				}
 			}

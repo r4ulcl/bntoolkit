@@ -319,7 +319,7 @@ func InsertDownload(db *sql.DB, debug bool, verbose bool, ip string, port int, h
 		log.Println("Insert download", ip, port, hash, projectName)
 	}
 
-	err := db.QueryRow(sqlStatement, ip, port, hash).Scan(&id)
+	err := db.QueryRow(sqlStatement, ip, port, hash, projectName).Scan(&id)
 	if err != nil {
 		return err
 	}

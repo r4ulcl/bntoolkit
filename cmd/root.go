@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobra/doc"
 )
 
 var cfgFile string //config file
@@ -22,17 +24,16 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
+		//generate doc
+		err := doc.GenMarkdownTree(rootCmd, "./doc")
+		if err != nil {
+			log.Fatal(err)
+		}
 		os.Exit(1)
 	}
 }
 
 func init() {
-	//generate doc
-	/*err := doc.GenMarkdownTree(rootCmd, "./doc")
-	if err != nil {
-		log.Fatal(err)
-	}*/
-
 	gopath := os.Getenv("GOPATH")
 
 	//Persistent Flags
