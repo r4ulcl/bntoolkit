@@ -69,7 +69,7 @@ func scrapeTracker(db *sql.DB, debug bool, verbose bool, tracker string, infohas
 		}
 		if r.Seeders > 0 || r.Leechers > 0 || r.Completed > 0 {
 			sum := r.Seeders + r.Leechers + r.Completed
-			if sum > 0 {
+			if sum > 0 && sum != 4294967295 {
 				utils.SetTrueValid(db, debug, verbose, string(r.Infohash))
 				utils.SetLen(db, debug, verbose, int(sum), string(r.Infohash))
 

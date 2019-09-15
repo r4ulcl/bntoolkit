@@ -88,7 +88,7 @@ For example:
 		case 2:
 			dht.WorkersTorrents(cfgFile, debug, verbose, file, projectName) //create hashes and check in db
 			dht.ScrapeTrackers(db, debug, verbose, projectName)             //scrape trackers
-			//dht.ScrapeDHT(db, debug, verbose)                  //search DHT
+			dht.SearchDHT(db, debug, verbose, projectName)                  //search DHT
 
 			fmt.Println("Possibles (possibles hashes to the file)")
 			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles
@@ -114,7 +114,7 @@ For example:
 		case 3:
 			dht.WorkersTorrents(cfgFile, debug, verbose, file, projectName) //create hashes and check in db
 			dht.ScrapeTrackers(db, debug, verbose, projectName)             //scrape trackers
-			//dht.ScrapeDHT(db, debug, verbose)                  //search DHT
+			dht.SearchDHT(db, debug, verbose, projectName)                  //search DHT
 
 			fmt.Println("Possibles (possibles hashes to the file)")
 			err := utils.SelectPossiblesWhere("possible", db, debug, verbose, projectName) //get only possibles

@@ -40,14 +40,9 @@ func WorkersTorrents(cfgFile string, debug bool, verbose bool, file string, proj
 	}
 	defer db.Close()
 	utils.DeletePossibles(db, debug, verbose)
-	for i := inicio; i < 30; i++ {
+	for i := inicio; i < 60; i++ {
 		waitGroup.Add(1)
 		go worker(db, debug, verbose, i, file, file, false, projectName)
-	}
-
-	for i := 30; i < 60; i++ {
-		waitGroup.Add(1)
-		go worker(db, debug, verbose, i, file, file, true, projectName)
 	}
 
 	waitGroup.Wait()
