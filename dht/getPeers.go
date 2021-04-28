@@ -104,7 +104,7 @@ func getPeers(db *sql.DB, debug bool, verbose bool, n *utils.Node, hash string) 
 		}
 		if len(nodes) > 0 {
 			if debug {
-				log.Printf("%v     El hashpuede ser buenoooooo:                        %v\n", addr, hash)
+				log.Printf("%v     The hash can be good:                        %v\n", addr, hash)
 			}
 			leng := getPeersLen(debug, verbose, n, hash) //le vuelvo a preguntar por el mismo
 			if leng > 0 {
@@ -175,9 +175,9 @@ func getPeersLen(debug bool, verbose bool, n *utils.Node, hash string) int {
 	if 1 == 1 {
 
 		if len(nodes) == 0 {
-			log.Printf("%v     El hash es bueno:                        %v\n", addr, hash)
+			log.Printf("%v     The hash is good:                        %v\n", addr, hash)
 		} else {
-			log.Printf("%v     El hash no es nada bueno :                        %v\n", addr, hash)
+			log.Printf("%v     The hash is NOT good:                        %v\n", addr, hash)
 
 		}
 	}

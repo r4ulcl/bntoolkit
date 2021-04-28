@@ -23,8 +23,8 @@ REF: https://www.digitalocean.com/community/tutorials/como-instalar-y-usar-docke
 ``` bash
 sudo apt-get update
 sudo apt-get -y upgrade
-wget https://dl.google.com/go/go1.12.9.linux-amd64.tar.gz #Check latest in https://golang.org/dl/
-sudo tar -xvf go1.12.9.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz #Check latest in https://golang.org/dl/
+sudo tar -xvf go*.linux-amd64.tar.gz
 sudo mv go /usr/local
 mkdir ~/work
 echo 'export GOROOT=/usr/local/go
@@ -41,38 +41,10 @@ REF: https://tecadmin.net/install-go-on-ubuntu/
 sudo apt install gcc g++
 ```
 
-#### From github (if it's public)
+#### From github 
 
 ``` bash
 go install github.com/RaulCalvoLaorden/bntoolkit
-```
-
-#### From local file (problem with anacrolix library )
-
-``` bash
-mkdir -p $GOPATH/src/github.com/RaulCalvoLaorden/
-cp -r bntoolkit $GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit
-cd $GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit
-go get .
-```
-
-OR 
-
-``` bash
-bash installLocal.sh
-```
-
-##### installLocal.sh:
-
-``` bash
-#!/bin/bash
-mkdir -p $GOPATH/src/github.com
-cp -r * $GOPATH/src/github.com/
-cd $GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/
-ls
-go get .
-go install
-bntoolkit
 ```
 
 ### Execute 
