@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/RaulCalvoLaorden/bntoolkit/utils"
-	"github.com/anacrolix/dht"
+	"github.com/anacrolix/dht/v2"
 )
 
 var waitVar sync.WaitGroup
