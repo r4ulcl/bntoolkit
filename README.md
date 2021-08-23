@@ -102,7 +102,7 @@ Help about any command
 bntoolkit help 
 ```
 
-![help](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/help.png)
+![help](./resources/help.png)
 
 #### version
 
@@ -112,7 +112,7 @@ Print the version number
 bntoolkit version
 ```
 
-![version](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/version.png)
+![version](./resources/version.png)
 
 #### initDB
 
@@ -138,7 +138,7 @@ Flags:
 bntoolkit create go1.12.9.linux-amd64.tar.gz -o output
 ```
 
-![create](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/create.png)
+![create](./resources/create.png)
 
 #### download
 
@@ -153,7 +153,7 @@ Flags:
 bntoolkit download e84213a794f3ccd890382a54a64ca68b7e925433
 ```
 
-![download](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/download.png)
+![download](./resources/download.png)
 
 #### getTorrent
 
@@ -168,7 +168,7 @@ Flags:
 bntoolkit getTorrent e84213a794f3ccd890382a54a64ca68b7e925433 -p .
 ```
 
-![getTorrent](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/getTorrent.png)
+![getTorrent](./resources/getTorrent.png)
 
 #### addAlert and deleteAlert
 
@@ -187,7 +187,7 @@ bntoolkit addAlert 8.8.8.0/24
 bntoolkit deleteAlert 8.8.8.0/24
 ```
 
-![alert](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/alert.png)
+![alert](./resources/alert.png)
 
 #### addMonitor and deleteMonitor
 
@@ -207,7 +207,7 @@ bntoolkit addMonitor e84213a794f3ccd890382a54a64ca68b7e925433
 bntoolkit deleteMonitor e84213a794f3ccd890382a54a64ca68b7e925433
 ```
 
-![monitor](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/monitor.png)
+![monitor](./resources/monitor.png)
 
 #### crawl
 
@@ -222,7 +222,7 @@ Flags:
 bntoolkit crawl
 ```
 
-![crawl](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/crawl.png)
+![crawl](./resources/crawl.png)
 
 #### daemon
 
@@ -238,7 +238,7 @@ Flags:
 bntoolkit daemon
 ```
 
-![daemon](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/daemon.png)
+![daemon](./resources/daemon.png)
 
 #### find
 
@@ -257,7 +257,7 @@ Flags:
 bntoolkit find 
 ```
 
-![find](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/find.png)
+![find](./resources/find.png)
 
 #### insert
 
