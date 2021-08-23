@@ -1,11 +1,42 @@
 # BNToolkit
 
-[TOC]
-
+- [BNToolkit](#bntoolkit)
+    - [Install](#install)
+        - [Install Docker](#install-docker)
+        - [Create Docker image](#create-docker-image)
+    - [Execute](#execute)
+        - [Start PostgreSQL](#start-postgresql)
+        - [Exec bntoolkit](#exec-bntoolkit)
+        - [Options](#options)
+            - [Configure configFile.toml](#configure-configfiletoml)
+            - [help](#help)
+            - [version](#version)
+            - [initDB](#initdb)
+            - [create](#create)
+            - [download](#download)
+            - [getTorrent](#gettorrent)
+            - [addAlert and deleteAlert](#addalert-and-deletealert)
+            - [addMonitor and deleteMonitor](#addmonitor-and-deletemonitor)
+            - [crawl](#crawl)
+            - [daemon](#daemon)
+            - [find](#find)
+            - [insert](#insert)
+                - [show](#show)
+                - [hash](#hash)
+                - [alert](#alert)
+                - [count](#count)
+                - [ip](#ip)
+                - [monitor](#monitor)
+                - [possibles](#possibles)
+                - [project](#project)
+    - [Manual install](#manual-install)
+        - [Install Golang](#install-golang)
+        - [Install bntoolkit](#install-bntoolkit)
+            - [From github](#from-github)
 
 ## Install
 
-### Install Docker 
+### Install Docker
 
 ```bash
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -17,45 +48,35 @@ sudo apt install docker-ce
 
 REF: https://www.digitalocean.com/community/tutorials/como-instalar-y-usar-docker-en-ubuntu-18-04-1-es
 
+### Create Docker image
 
-### Install Golang
-
-``` bash
-sudo apt-get update
-sudo apt-get -y upgrade
-wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz #Check latest in https://golang.org/dl/
-sudo tar -xvf go*.linux-amd64.tar.gz
-sudo mv go /usr/local
-mkdir ~/work
-echo 'export GOROOT=/usr/local/go
-export GOPATH=$HOME/work
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.profile
-source ~/.profile
+```bash
+git clone https://github.com/RaulCalvoLaorden/bntoolkit
+docker build -t bntoolkit .
 ```
 
-REF: https://tecadmin.net/install-go-on-ubuntu/
-
-### Install bntoolkit
-
-``` bash
-sudo apt install gcc g++
-```
-
-#### From github 
-
-``` bash
-go install github.com/RaulCalvoLaorden/bntoolkit
-```
-
-### Execute 
+## Execute
 
 #### Start PostgreSQL
 
 ```bash
-mkdir ~/postgres #or any folder to store data
-sudo docker stop hashpostgres ; sudo docker rm hashpostgres #delete if it exists
-sudo docker run -d -p 5432:5432 --mount type=bind,source=$HOME/postgres/,target=/var/lib/postgresql/data --name hashpostgres -e POSTGRES_PASSWORD=postgres99 postgres
+mkdir postgres #or any folder to store data
+sudo docker run -d --rm -p 5432:5432 --mount type=bind,source=$PWD/postgres/,target=/var/lib/postgresql/data --name hashpostgres -e POSTGRES_PASSWORD=postgres99 postgres
 ```
+
+#### Exec bntoolkit
+
+```bash
+sudo docker run --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit initDB
+
+#crawl (-d to detach (background))
+sudo docker run --rm --net=host -d -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit crawl
+
+#Show hashes
+sudo docker run --rm --net=host -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit show hash
+```
+
+### Options
 
 #### Configure configFile.toml
 
@@ -69,19 +90,19 @@ password="postgres99"
 dbname="hash"
 ```
 
-You can change this file or change create a new file and use the FLAG: --config <PATH>
+You can change this file or change create a new file and use the FLAG: --config
 
-Don't change the dbname. But if you do it you should change the sql.sql file too. 
+Don't change the dbname. But if you do it you should change the sql.sql file too.
 
 #### help
 
 Help about any command
 
-``` bash
+```bash
 bntoolkit help 
 ```
 
-![help](resources/help.png)
+![help](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/help.png)
 
 #### version
 
@@ -91,7 +112,7 @@ Print the version number
 bntoolkit version
 ```
 
-![version](resources/version.png)
+![version](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/version.png)
 
 #### initDB
 
@@ -113,41 +134,41 @@ Flags:
 - --piecesize
 - --tracker
 
-``` bash
+```bash
 bntoolkit create go1.12.9.linux-amd64.tar.gz -o output
 ```
 
-![create](resources/create.png)
+![create](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/create.png)
 
 #### download
 
-Download a file from a hash, a magnet or a Torrent file. 
+Download a file from a hash, a magnet or a Torrent file.
 
 Flags:
 
 - --help
 - --path
 
-``` bash
+```bash
 bntoolkit download e84213a794f3ccd890382a54a64ca68b7e925433
 ```
 
-![download](resources/download.png)
+![download](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/download.png)
 
 #### getTorrent
 
-Get torrent file from a hash or magnet. 
+Get torrent file from a hash or magnet.
 
 Flags:
 
 - --help
 - --path
 
-``` bash
+```bash
 bntoolkit getTorrent e84213a794f3ccd890382a54a64ca68b7e925433 -p .
 ```
 
-![getTorrent](resources/getTorrent.png)
+![getTorrent](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/getTorrent.png)
 
 #### addAlert and deleteAlert
 
@@ -162,11 +183,11 @@ Flags:
 bntoolkit addAlert 8.8.8.0/24
 ```
 
-``` bash
+```bash
 bntoolkit deleteAlert 8.8.8.0/24
 ```
 
-![alert](resources/alert.png)
+![alert](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/alert.png)
 
 #### addMonitor and deleteMonitor
 
@@ -182,11 +203,11 @@ Flags:
 bntoolkit addMonitor e84213a794f3ccd890382a54a64ca68b7e925433
 ```
 
-``` bash
+```bash
 bntoolkit deleteMonitor e84213a794f3ccd890382a54a64ca68b7e925433
 ```
 
-![monitor](resources/monitor.png)
+![monitor](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/monitor.png)
 
 #### crawl
 
@@ -197,11 +218,11 @@ Flags:
 - --help
 - --threads
 
-``` bash
+```bash
 bntoolkit crawl
 ```
 
-![crawl](resources/crawl.png)
+![crawl](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/crawl.png)
 
 #### daemon
 
@@ -213,11 +234,11 @@ Flags:
 - --project
 - --scrape
 
-``` bash
+```bash
 bntoolkit daemon
 ```
 
-![daemon](resources/daemon.png)
+![daemon](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/daemon.png)
 
 #### find
 
@@ -232,11 +253,11 @@ Flags:
 - --timeout
 - --tracker
 
-``` bash
+```bash
 bntoolkit find 
 ```
 
-![find](resources/find.png)
+![find](/tmp/.mount_JoplinAqXBT6/resources/app.asar/resources/find.png)
 
 #### insert
 
@@ -246,7 +267,7 @@ Flags:
 
 - --help
 
-``` bash
+```bash
 bntoolkit insert 65145ed4d745cfc93f5ffe3492e9cde599999999
 ```
 
@@ -267,7 +288,7 @@ Flags:
 - --hash
 - --source
 
-``` bash
+```bash
 bntoolkit show hash --hash 65145ed4d745cfc93f5ffe3492e9cde599999999
 ```
 
@@ -278,7 +299,7 @@ Flags:
 - --help
 - --ip
 
-``` bash
+```bash
 bntoolkit show alert
 ```
 
@@ -288,7 +309,7 @@ Flags:
 
 - --help
 
-``` bash
+```bash
 bntoolkit show count
 ```
 
@@ -299,7 +320,7 @@ Flags:
 - --help
 - --ip
 
-``` bash
+```bash
 bntoolkit show ip
 ```
 
@@ -310,7 +331,7 @@ Flags:
 - --help
 - --user
 
-``` bash
+```bash
 bntoolkit show monitor
 ```
 
@@ -321,7 +342,7 @@ Flags:
 - --help
 - --hash
 
-``` bash
+```bash
 bntoolkit show possibles
 ```
 
@@ -332,9 +353,37 @@ Flags:
 - --help
 - --projectName
 
-``` bash
+```bash
 bntoolkit show project
 ```
 
+## Manual install
 
+### Install Golang
 
+```bash
+sudo apt-get update
+sudo apt-get -y upgrade
+wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz #Check latest in https://golang.org/dl/
+sudo tar -xvf go*.linux-amd64.tar.gz
+sudo mv go /usr/local
+mkdir ~/work
+echo 'export GOROOT=/usr/local/go
+export GOPATH=$HOME/work
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.profile
+source ~/.profile
+```
+
+REF: https://tecadmin.net/install-go-on-ubuntu/
+
+### Install bntoolkit
+
+```bash
+sudo apt install gcc g++
+```
+
+#### From github
+
+```bash
+go install github.com/RaulCalvoLaorden/bntoolkit
+```
