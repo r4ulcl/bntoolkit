@@ -1,4 +1,4 @@
-# BNToolkit
+# BNToolkit (BitTorrent Network Toolkit)
 
 - [BNToolkit](#bntoolkit)
     - [Install](#install)
@@ -35,6 +35,10 @@
         - [Install bntoolkit](#install-bntoolkit)
             - [From github](#from-github)
             
+## Theory and motivations (spanish)
+
+- [Link TFG](https://ebuah.uah.es/dspace/bitstream/handle/10017/39532/TFG_Calvo_Laorden_2019.pdf?sequence=1&isAllowed=y)
+
 ## Install
 
 ### Install Docker
