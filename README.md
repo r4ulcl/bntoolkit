@@ -3,8 +3,9 @@
 - [BNToolkit](#bntoolkit)
     - [Install](#install)
         - [Install Docker](#install-docker)
-        - [Create Docker image](#create-docker-image)
-    - [Execute](#execute)
+        - [Get Docker image (RECOMMENDED)](#get-docker-image-recommended)
+    - [Execute using Docker](#execute-using-docker)
+        - [Create docker network](#create-docker-network)
         - [Start PostgreSQL](#start-postgresql)
         - [Exec bntoolkit](#exec-bntoolkit)
         - [Options](#options)
@@ -33,7 +34,7 @@
         - [Install Golang](#install-golang)
         - [Install bntoolkit](#install-bntoolkit)
             - [From github](#from-github)
-
+            
 ## Install
 
 ### Install Docker
@@ -48,20 +49,13 @@ sudo apt install docker-ce
 
 REF: https://www.digitalocean.com/community/tutorials/como-instalar-y-usar-docker-en-ubuntu-18-04-1-es
 
-### Create Docker image
+### Get Docker image (RECOMMENDED)
 
 ```bash
-git clone https://github.com/RaulCalvoLaorden/bntoolkit
-docker build -t bntoolkit .
+docker pull raulcalvolaorden/bntoolkit
 ```
 
-## Manual install
-
-``` bash
-go get github.com/RaulCalvoLaorden
-```
-
-## Execute
+## Execute using Docker
 
 #### Create docker network
 ``` bash
@@ -79,13 +73,16 @@ sudo docker run --net bntoolkit-net -d --rm -p 5432:5432 --mount type=bind,sourc
 #### Exec bntoolkit
 
 ```bash
-sudo docker run --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit initDB
+#init Database
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
 
-#crawl (-d to detach (background))
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit initDB
+#crawl (use -d to detach (background))
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit crawl
 
 #Show hashes
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit show hash
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
+
+
 ```
 
 ### Options
