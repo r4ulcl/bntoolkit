@@ -1,4 +1,4 @@
-host="localhost"
+host="hashpostgres"
 port=5432
 user="postgres"
 password="postgres99"

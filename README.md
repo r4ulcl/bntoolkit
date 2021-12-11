@@ -55,13 +55,25 @@ git clone https://github.com/RaulCalvoLaorden/bntoolkit
 docker build -t bntoolkit .
 ```
 
+## Manual install
+
+``` bash
+go get github.com/RaulCalvoLaorden
+```
+
 ## Execute
+
+#### Create docker network
+``` bash
+sudo docker network create bntoolkit-net --subnet 172.24.24.0/24
+```
+
 
 #### Start PostgreSQL
 
 ```bash
 mkdir postgres #or any folder to store data
-sudo docker run -d --rm -p 5432:5432 --mount type=bind,source=$PWD/postgres/,target=/var/lib/postgresql/data --name hashpostgres -e POSTGRES_PASSWORD=postgres99 postgres
+sudo docker run --net bntoolkit-net -d --rm -p 5432:5432 --mount type=bind,source=$PWD/postgres/,target=/var/lib/postgresql/data --name hashpostgres -e POSTGRES_PASSWORD=postgres99 postgres
 ```
 
 #### Exec bntoolkit
@@ -70,10 +82,10 @@ sudo docker run -d --rm -p 5432:5432 --mount type=bind,source=$PWD/postgres/,tar
 sudo docker run --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit initDB
 
 #crawl (-d to detach (background))
-sudo docker run --rm --net=host -d -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit crawl
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit initDB
 
 #Show hashes
-sudo docker run --rm --net=host -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit show hash
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml bntoolkit show hash
 ```
 
 ### Options
