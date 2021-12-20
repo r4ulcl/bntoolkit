@@ -76,6 +76,9 @@ sudo docker run --net bntoolkit-net -d --rm -p 5432:5432 --mount type=bind,sourc
 
 #### Exec bntoolkit
 
+
+##### Use default config file
+
 ```bash
 #init Database
 sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
@@ -85,8 +88,26 @@ sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.
 
 #Show hashes
 sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
+```
 
+##### Use custom config file
 
+```bash
+# Create config file
+echo 'host="hashpostgres"
+port=5432
+user="postgres"
+password="postgres99"
+dbname="hash"' > configFile.toml
+
+#init Database
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
+
+#crawl (use -d to detach (background))
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit crawl
+
+#Show hashes
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
 ```
 
 ### Options
