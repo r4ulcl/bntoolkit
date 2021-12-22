@@ -53,7 +53,7 @@ sudo apt install docker-ce
 
 REF: https://www.digitalocean.com/community/tutorials/como-instalar-y-usar-docker-en-ubuntu-18-04-1-es
 
-### Get Docker image (RECOMMENDED)
+### From [DockerHub](https://hub.docker.com/r/raulcalvolaorden/bntoolkit) (RECOMMENDED)
 
 ```bash
 docker pull raulcalvolaorden/bntoolkit
@@ -81,13 +81,13 @@ sudo docker run --net bntoolkit-net -d --rm -p 5432:5432 --mount type=bind,sourc
 
 ```bash
 #init Database
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
+sudo docker run --net bntoolkit-net --rm raulcalvolaorden/bntoolkit initDB
 
 #crawl (use -d to detach (background))
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit crawl
+sudo docker run --net bntoolkit-net --rm raulcalvolaorden/bntoolkit crawl
 
 #Show hashes
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
+sudo docker run --net bntoolkit-net --rm raulcalvolaorden/bntoolkit show hash
 ```
 
 ##### Use custom config file
