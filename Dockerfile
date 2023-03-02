@@ -1,9 +1,9 @@
 
 # STEP 1 build executable binary
 FROM golang:alpine as builder
-COPY . $GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit
+COPY . $GOPATH/src/github.com/r4ulcl/bntoolkit
 
-WORKDIR $GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit
+WORKDIR $GOPATH/src/github.com/r4ulcl/bntoolkit
 #get dependancies
 RUN apk -U add alpine-sdk
 RUN go get -d -v
@@ -20,8 +20,8 @@ ENV GOPATH='/go'
 # Copy our static executable
 COPY --from=builder /$GOPATH/bin/bntoolkit /$GOPATH/bin/bntoolkit
 #Copy all code (sql, conf files, etc)
-COPY --from=builder /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/sql.sql /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/sql.sql
-COPY --from=builder /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml
-COPY --from=builder /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/doc /$GOPATH/src/github.com/RaulCalvoLaorden/bntoolkit/doc
+COPY --from=builder /$GOPATH/src/github.com/r4ulcl/bntoolkit/sql.sql /$GOPATH/src/github.com/r4ulcl/bntoolkit/sql.sql
+COPY --from=builder /$GOPATH/src/github.com/r4ulcl/bntoolkit/configFile.toml /$GOPATH/src/github.com/r4ulcl/bntoolkit/configFile.toml
+COPY --from=builder /$GOPATH/src/github.com/r4ulcl/bntoolkit/doc /$GOPATH/src/github.com/r4ulcl/bntoolkit/doc
 
 ENTRYPOINT ["/go/bin/bntoolkit"]

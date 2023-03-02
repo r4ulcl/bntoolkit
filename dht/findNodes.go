@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	bencode "github.com/jackpal/bencode-go"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
-//struct for find node
+// struct for find node
 type fNode struct {
 	t string
 	y string
@@ -48,7 +48,7 @@ type auxFNR struct {
 		"dht.libtorrent.org:25401", // @arvidn
 */
 
-//First function to search in DHT
+// First function to search in DHT
 func findNodes(debug bool, verbose bool) ([]*utils.Node, error) {
 	nodesList := [7]string{"router.bittorrent.com:6881",
 		"router.utorrent.com:6881",

@@ -13,10 +13,10 @@ import (
 
 	bencode "github.com/jackpal/bencode-go"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
-//struct para el find node
+// struct para el find node
 type nodeRQ struct {
 	y string
 	t string
@@ -50,7 +50,7 @@ type auxNRR struct {
 		"dht.libtorrent.org:25401", // @arvidn
 */
 
-//http://www.bittorrent.org/beps/bep_0051.html
+// http://www.bittorrent.org/beps/bep_0051.html
 func sampleInfohashes(debug bool, verbose bool, n *utils.Node) ([]*utils.Node, []string, error) {
 	//random id and target
 	var hashList []string

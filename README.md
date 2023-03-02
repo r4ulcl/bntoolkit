@@ -101,13 +101,13 @@ password="postgres99"
 dbname="hash"' > configFile.toml
 
 #init Database
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/r4ulcl/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit initDB
 
 #crawl (use -d to detach (background))
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit crawl
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/r4ulcl/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit crawl
 
 #Show hashes
-sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
+sudo docker run --net bntoolkit-net --rm -v $PWD/configFile.toml:/go/src/github.com/r4ulcl/bntoolkit/configFile.toml raulcalvolaorden/bntoolkit show hash
 ```
 
 ### Options
@@ -419,5 +419,5 @@ sudo apt install gcc g++
 #### From github
 
 ```bash
-go install github.com/RaulCalvoLaorden/bntoolkit
+go install github.com/r4ulcl/bntoolkit
 ```

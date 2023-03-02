@@ -11,14 +11,14 @@ import (
 
 	"github.com/anacrolix/tagflag"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	"github.com/anacrolix/torrent/bencode"
 	"github.com/anacrolix/torrent/metainfo"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
 var waitGroup sync.WaitGroup
 
-//FileInfo Path and Lenght of a file
+// FileInfo Path and Lenght of a file
 type FileInfo struct {
 	Path   []string
 	Length int
@@ -27,7 +27,7 @@ type FileInfo struct {
 var hashesChan chan string
 var inicio = 10
 
-//WorkersTorrents create a hashlist for the file
+// WorkersTorrents create a hashlist for the file
 func WorkersTorrents(cfgFile string, debug bool, verbose bool, file string, projectName string) {
 	fmt.Println("file", file)
 
@@ -49,7 +49,7 @@ func WorkersTorrents(cfgFile string, debug bool, verbose bool, file string, proj
 
 }
 
-//worker goroutine
+// worker goroutine
 func worker(db *sql.DB, debug bool, verbose bool, id int, path string, file string, reverse bool, projectName string) {
 
 	if debug {
@@ -125,7 +125,7 @@ func worker(db *sql.DB, debug bool, verbose bool, id int, path string, file stri
 
 }
 
-//CrateTorrent create a torrent file
+// CrateTorrent create a torrent file
 func CrateTorrent(debug bool, verbose bool, file string, outfile string, piecesize int64, tracker string, comment string) {
 
 	if debug {

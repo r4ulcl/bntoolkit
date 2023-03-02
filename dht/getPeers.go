@@ -12,11 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	bencode "github.com/jackpal/bencode-go"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
-//struct para el find node
+// struct para el find node
 type getPeerQ struct {
 	t string
 	y string
@@ -185,7 +185,7 @@ func getPeersLen(debug bool, verbose bool, n *utils.Node, hash string) int {
 
 }
 
-//SearchHash search a hash and insert peers in DB
+// SearchHash search a hash and insert peers in DB
 func SearchHash(db *sql.DB, debug bool, verbose bool, hash string) {
 	max := 1000
 	dataSearch := make(chan *utils.Node, max)

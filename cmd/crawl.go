@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/dht"
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/dht"
+	"github.com/r4ulcl/bntoolkit/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +23,7 @@ For example:
 	},
 }
 
-//ScrapeCmd crawl the DHT
+// ScrapeCmd crawl the DHT
 func ScrapeCmd() {
 	fmt.Println("crawl called")
 

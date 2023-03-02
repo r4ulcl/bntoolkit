@@ -8,13 +8,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	"github.com/anacrolix/dht/v2"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
 var waitVar sync.WaitGroup
 
-//DaemonPeers monitor hashes in monitor table
+// DaemonPeers monitor hashes in monitor table
 func DaemonPeers(cfgFile string, debug bool, verbose bool, projectName string) {
 	db, err := utils.ConnectDb(cfgFile, debug, verbose)
 	if err != nil {
@@ -40,7 +40,7 @@ func DaemonPeers(cfgFile string, debug bool, verbose bool, projectName string) {
 
 }
 
-//GetPeersLib gets peers from hash and insert into the database, (code based in https://raw.githubusercontent.com/anacrolix/dht/master/cmd/dht-announce/main.go)
+// GetPeersLib gets peers from hash and insert into the database, (code based in https://raw.githubusercontent.com/anacrolix/dht/master/cmd/dht-announce/main.go)
 func GetPeersLib(db *sql.DB, debug bool, verbose bool, hash string, projectName string) {
 	defer waitVar.Done()
 

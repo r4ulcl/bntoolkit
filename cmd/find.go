@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/dht"
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/dht"
+	"github.com/r4ulcl/bntoolkit/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +19,7 @@ var timeout int
 
 var waitGroup sync.WaitGroup
 
-//FileInfo : Path plus lenght
+// FileInfo : Path plus lenght
 type FileInfo struct {
 	Path   []string
 	Length int

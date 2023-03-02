@@ -3,12 +3,12 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/dht"
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/dht"
+	"github.com/r4ulcl/bntoolkit/utils"
 	"github.com/spf13/cobra"
 )
 
-//var projectName string
+// var projectName string
 var crawlDaemon bool
 
 // daemonCmd represents the daemon command

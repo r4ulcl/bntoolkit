@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/dht"
+	"github.com/r4ulcl/bntoolkit/dht"
 	"github.com/spf13/cobra"
 )
 

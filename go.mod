@@ -1,4 +1,4 @@
-module github.com/RaulCalvoLaorden/bntoolkit
+module github.com/r4ulcl/bntoolkit
 
 go 1.17
 

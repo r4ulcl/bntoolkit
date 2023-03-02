@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/utils"
 
 	"github.com/spf13/cobra"
 )

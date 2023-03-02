@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	bencode "github.com/jackpal/bencode-go"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
 const letterBytes = "abcdef1234567890"
@@ -31,7 +31,7 @@ func randStringBytesMask(n int) string {
 	return string(b)
 }
 
-//struct para el ping request
+// struct para el ping request
 type pingQ struct {
 	t string
 	y string
@@ -39,19 +39,19 @@ type pingQ struct {
 	a aux
 }
 
-//struct para el auxiliar ping request
+// struct para el auxiliar ping request
 type aux struct {
 	id string
 }
 
-//struct para el ping response
+// struct para el ping response
 type pingR struct {
 	T string `json:"t"`
 	Y string `json:"y"`
 	R auxR
 }
 
-//struct aux para el ping response
+// struct aux para el ping response
 type auxR struct {
 	ID string
 }

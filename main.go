@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/RaulCalvoLaorden/bntoolkit/cmd"
+	"github.com/r4ulcl/bntoolkit/cmd"
 )
 
 func main() {

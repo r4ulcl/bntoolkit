@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
 	"github.com/etix/goscrape"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
-//ScrapeTrackers scrape common trackers for the hashes
+// ScrapeTrackers scrape common trackers for the hashes
 func ScrapeTrackers(db *sql.DB, debug bool, verbose bool, projectName string) {
 	//https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt
 	trackers, err := getTrackers(verbose, debug)
@@ -89,7 +89,7 @@ var data chan *utils.Node
 var hashes chan string
 var max = 100000
 
-//Crawler DHT
+// Crawler DHT
 func Crawler(db *sql.DB, debug bool, verbose bool, threads int) {
 	if debug {
 		log.Println("Starting the application...")

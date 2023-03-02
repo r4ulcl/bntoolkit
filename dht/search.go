@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RaulCalvoLaorden/bntoolkit/utils"
+	"github.com/r4ulcl/bntoolkit/utils"
 )
 
-//SearchDHT searchs in DHT
+// SearchDHT searchs in DHT
 func SearchDHT(db *sql.DB, debug bool, verbose bool, projectName string) {
 	log.Println("Starting the application...")
 	//max := 1000

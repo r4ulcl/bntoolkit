@@ -39,5 +39,5 @@ func init() {
 	//Persistent Flags
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "debug output")
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "cfgFile", "c", gopath+"/src/github.com/RaulCalvoLaorden/bntoolkit/configFile.toml", "Config file to DB (host, port, user, password)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "cfgFile", "c", gopath+"/src/github.com/r4ulcl/bntoolkit/configFile.toml", "Config file to DB (host, port, user, password)")
 }

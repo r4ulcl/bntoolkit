@@ -18,7 +18,7 @@ import (
 
 //	db.QueryRow("INSERT INTO hash(hash,source, first_seen) VALUES($1,$2,$3) ;", hash, "dht", time.Now().Local().Format("2006-01-02"))
 
-//Config from file for the database
+// Config from file for the database
 type Config struct {
 	Host     string
 	Port     int
@@ -27,7 +27,7 @@ type Config struct {
 	Dbname   string
 }
 
-//GetConfig Get the config from the configFile
+// GetConfig Get the config from the configFile
 func GetConfig(configFile string, debug bool, verbose bool) (Config, error) {
 	var config Config
 
@@ -48,7 +48,7 @@ func GetConfig(configFile string, debug bool, verbose bool) (Config, error) {
 
 }
 
-//ConnectDb : conect database and return *sql.DB
+// ConnectDb : conect database and return *sql.DB
 func ConnectDb(cfgFile string, debug bool, verbose bool) (*sql.DB, error) {
 
 	if debug {
@@ -83,7 +83,7 @@ func ConnectDb(cfgFile string, debug bool, verbose bool) (*sql.DB, error) {
 	return db, err
 }
 
-//CreateDb : Create database hash
+// CreateDb : Create database hash
 func CreateDb(cfgFile string, database string, debug bool, verbose bool) error {
 
 	if debug {
@@ -112,7 +112,7 @@ func CreateDb(cfgFile string, database string, debug bool, verbose bool) error {
 	return nil
 }
 
-//InitDB : init Database
+// InitDB : init Database
 func InitDB(db *sql.DB, debug bool, verbose bool) error {
 
 	if debug {
@@ -122,7 +122,7 @@ func InitDB(db *sql.DB, debug bool, verbose bool) error {
 	//read sql file
 	gopath := os.Getenv("GOPATH")
 
-	b, err := ioutil.ReadFile(gopath + "/src/github.com/RaulCalvoLaorden/bntoolkit/sql.sql") // just pass the file name
+	b, err := ioutil.ReadFile(gopath + "/src/github.com/r4ulcl/bntoolkit/sql.sql") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -140,7 +140,7 @@ func InitDB(db *sql.DB, debug bool, verbose bool) error {
 	return nil
 }
 
-//ExecuteDb execeute a SQL query. Dangerous
+// ExecuteDb execeute a SQL query. Dangerous
 func ExecuteDb(db *sql.DB, debug bool, verbose bool, sqlString string) error {
 	//Create DB
 	if debug {
@@ -153,7 +153,7 @@ func ExecuteDb(db *sql.DB, debug bool, verbose bool, sqlString string) error {
 	return nil
 }
 
-//InsertHash to the database
+// InsertHash to the database
 func InsertHash(db *sql.DB, debug bool, verbose bool, hash string, source string) error {
 
 	sqlStatement := `
@@ -176,7 +176,7 @@ func InsertHash(db *sql.DB, debug bool, verbose bool, hash string, source string
 	return nil
 }
 
-//InsertProject to the database
+// InsertProject to the database
 func InsertProject(db *sql.DB, debug bool, verbose bool, projectName string) error {
 
 	sqlStatement := "INSERT INTO project (\"projectName\", date) VALUES('" + projectName + "',current_timestamp) RETURNING \"projectName\""
@@ -196,7 +196,7 @@ func InsertProject(db *sql.DB, debug bool, verbose bool, projectName string) err
 	return nil
 }
 
-//DeleteProject from the database
+// DeleteProject from the database
 func DeleteProject(db *sql.DB, debug bool, verbose bool, name string) error {
 
 	sqlStatement := `
@@ -210,7 +210,7 @@ func DeleteProject(db *sql.DB, debug bool, verbose bool, name string) error {
 	return nil
 }
 
-//InsertMonitor inserts a hash in teh database for monitor in daemon mode.
+// InsertMonitor inserts a hash in teh database for monitor in daemon mode.
 func InsertMonitor(db *sql.DB, debug bool, verbose bool, hash string, username string, projectName string) error {
 
 	sqlStatement := `
@@ -233,7 +233,7 @@ func InsertMonitor(db *sql.DB, debug bool, verbose bool, hash string, username s
 	return nil
 }
 
-//DeleteMonitor from the database
+// DeleteMonitor from the database
 func DeleteMonitor(db *sql.DB, debug bool, verbose bool, hash string) error {
 
 	sqlStatement := `
@@ -248,7 +248,7 @@ func DeleteMonitor(db *sql.DB, debug bool, verbose bool, hash string) error {
 	return nil
 }
 
-//InsertAlert to the database
+// InsertAlert to the database
 func InsertAlert(db *sql.DB, debug bool, verbose bool, ip string, list string, username string, projectName string) error {
 	sqlStatement := `
 		INSERT INTO alert(ip, list, username, "projectName")
@@ -270,7 +270,7 @@ func InsertAlert(db *sql.DB, debug bool, verbose bool, ip string, list string, u
 	return nil
 }
 
-//DeleteAlert from the database
+// DeleteAlert from the database
 func DeleteAlert(db *sql.DB, debug bool, verbose bool, ip string) error {
 	sqlStatement := "delete from alert where ip <<= $1"
 
@@ -283,7 +283,7 @@ func DeleteAlert(db *sql.DB, debug bool, verbose bool, ip string) error {
 	return nil
 }
 
-//InsertIP inserts a IP or range in the database db with the proyectName
+// InsertIP inserts a IP or range in the database db with the proyectName
 func InsertIP(db *sql.DB, debug bool, verbose bool, ip string, projectName string) error {
 
 	sqlStatement := `
@@ -306,7 +306,7 @@ func InsertIP(db *sql.DB, debug bool, verbose bool, ip string, projectName strin
 	return nil
 }
 
-//InsertDownload to the database
+// InsertDownload to the database
 func InsertDownload(db *sql.DB, debug bool, verbose bool, ip string, port int, hash string, projectName string) error {
 
 	sqlStatement := `
@@ -329,7 +329,7 @@ func InsertDownload(db *sql.DB, debug bool, verbose bool, ip string, port int, h
 	return nil
 }
 
-//InsertHashList to the database
+// InsertHashList to the database
 func InsertHashList(db *sql.DB, debug bool, verbose bool, hashes []string, source string) error {
 	sql := `INSERT INTO hash(hash ,source, first_seen) VALUES `
 	max := len(hashes)
@@ -355,7 +355,7 @@ func InsertHashList(db *sql.DB, debug bool, verbose bool, hashes []string, sourc
 	return nil
 }
 
-//InsertFile  to the database
+// InsertFile  to the database
 func InsertFile(db *sql.DB, debug bool, verbose bool, filePath string) error {
 
 	file, err := os.Open(filePath)
@@ -386,7 +386,7 @@ func InsertFile(db *sql.DB, debug bool, verbose bool, filePath string) error {
 	return nil
 }
 
-//GetHash from ID
+// GetHash from ID
 func GetHash(db *sql.DB, debug bool, verbose bool, i int) (string, error) {
 
 	sqlStatement := `SELECT hash FROM possibles WHERE id=$1;`
@@ -406,7 +406,7 @@ func GetHash(db *sql.DB, debug bool, verbose bool, i int) (string, error) {
 	return hash, nil
 }
 
-//GetPossibles from DB possibles table
+// GetPossibles from DB possibles table
 func GetPossibles(db *sql.DB, debug bool, verbose bool) (int, error) {
 
 	var count int
@@ -424,7 +424,7 @@ func GetPossibles(db *sql.DB, debug bool, verbose bool) (int, error) {
 	return count, nil
 }
 
-//DeletePossibles table
+// DeletePossibles table
 func DeletePossibles(db *sql.DB, debug bool, verbose bool) {
 
 	if debug {
@@ -434,7 +434,7 @@ func DeletePossibles(db *sql.DB, debug bool, verbose bool) {
 	db.QueryRow("DELETE FROM public.possibles")
 }
 
-//DeletePossiblesFalse where possible=false
+// DeletePossiblesFalse where possible=false
 func DeletePossiblesFalse(db *sql.DB, debug bool, verbose bool) {
 
 	if debug {
@@ -444,7 +444,7 @@ func DeletePossiblesFalse(db *sql.DB, debug bool, verbose bool) {
 	db.QueryRow("DELETE FROM public.possibles where Possible=false")
 }
 
-//SetTruePossible a hash from possibles table
+// SetTruePossible a hash from possibles table
 func SetTruePossible(db *sql.DB, debug bool, verbose bool, hash string) error {
 	var id int
 	//db.QueryRow("UPDATE public.possibles SET valid=True WHERE id=$1;")
@@ -464,7 +464,7 @@ func SetTruePossible(db *sql.DB, debug bool, verbose bool, hash string) error {
 	return nil
 }
 
-//SetTrueDownload a hash from possibles table
+// SetTrueDownload a hash from possibles table
 func SetTrueDownload(db *sql.DB, debug bool, verbose bool, hash string) error {
 	var id int
 	//db.QueryRow("UPDATE public.possibles SET valid=True WHERE id=$1;")
@@ -485,7 +485,7 @@ func SetTrueDownload(db *sql.DB, debug bool, verbose bool, hash string) error {
 	return nil
 }
 
-//SetLen to a hash in possibles table
+// SetLen to a hash in possibles table
 func SetLen(db *sql.DB, debug bool, verbose bool, num int, hash string) error {
 
 	var id int
@@ -507,7 +507,7 @@ func SetLen(db *sql.DB, debug bool, verbose bool, num int, hash string) error {
 	return nil
 }
 
-//SetTrueValid in possibles table
+// SetTrueValid in possibles table
 func SetTrueValid(db *sql.DB, debug bool, verbose bool, hash string) error {
 
 	var id int
@@ -529,7 +529,7 @@ func SetTrueValid(db *sql.DB, debug bool, verbose bool, hash string) error {
 	return nil
 }
 
-//SetNamePossibles in possibles table
+// SetNamePossibles in possibles table
 func SetNamePossibles(db *sql.DB, debug bool, verbose bool, name string, hash string) error {
 
 	var id int
@@ -551,7 +551,7 @@ func SetNamePossibles(db *sql.DB, debug bool, verbose bool, name string, hash st
 	return nil
 }
 
-//InsertPossible in possibles table
+// InsertPossible in possibles table
 func InsertPossible(db *sql.DB, debug bool, verbose bool, num int, hash string, valid bool, projectName string) error {
 
 	possible := true
@@ -575,7 +575,7 @@ func InsertPossible(db *sql.DB, debug bool, verbose bool, num int, hash string, 
 	return nil
 }
 
-//CheckExist : comprobar si el Possible esta en la otra lista
+// CheckExist : comprobar si el Possible esta en la otra lista
 func CheckExist(db *sql.DB, debug bool, verbose bool, hash string) (bool, error) {
 	var count int
 	row := db.QueryRow("SELECT count(*)	FROM public.hash where hash = '" + hash + "';")
@@ -592,7 +592,7 @@ func CheckExist(db *sql.DB, debug bool, verbose bool, hash string) (bool, error)
 
 var waitGroup sync.WaitGroup
 
-//DownloadPossibles Get and download (torrentLib) from possibles where possible true
+// DownloadPossibles Get and download (torrentLib) from possibles where possible true
 func DownloadPossibles(db *sql.DB, timeout int, debug bool, verbose bool, projectName string) error {
 	rows, err := db.Query("SELECT id, hash, download, valid, possible, num FROM possibles where Possible=True")
 	if err != nil {
@@ -617,7 +617,7 @@ func DownloadPossibles(db *sql.DB, timeout int, debug bool, verbose bool, projec
 	return nil
 }
 
-//DownloadValid Get and download (torrentLib) from possibles where valid = true
+// DownloadValid Get and download (torrentLib) from possibles where valid = true
 func DownloadValid(db *sql.DB, timeout int, debug bool, verbose bool, projectName string) error {
 	rows, err := db.Query("SELECT id, hash, download, valid, possible, num FROM possibles where Valid=True")
 	if err != nil {
@@ -642,7 +642,7 @@ func DownloadValid(db *sql.DB, timeout int, debug bool, verbose bool, projectNam
 	return nil
 }
 
-//SelectPossiblesWhere columnTrue=True from the database. Possibles values: download, valid and possible
+// SelectPossiblesWhere columnTrue=True from the database. Possibles values: download, valid and possible
 func SelectPossiblesWhere(columnTrue string, db *sql.DB, debug bool, verbose bool, projectName string) error {
 	rows, err := db.Query("SELECT id, hash, download, valid, possible, num, \"projectName\" FROM possibles where " + columnTrue + "=True")
 	if err != nil {
@@ -668,7 +668,7 @@ func SelectPossiblesWhere(columnTrue string, db *sql.DB, debug bool, verbose boo
 	return nil
 }
 
-//GetHashes from database
+// GetHashes from database
 func GetHashes(db *sql.DB, debug bool, verbose bool) ([][]byte, error) {
 	var infohashes [][]byte
 	max, err := GetPossibles(db, debug, verbose)
@@ -688,7 +688,7 @@ func GetHashes(db *sql.DB, debug bool, verbose bool) ([][]byte, error) {
 	return infohashes, nil
 }
 
-//QueryHash from database
+// QueryHash from database
 func QueryHash(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash string, source string) (string, error) {
 	salida := ""
 
@@ -727,7 +727,7 @@ func QueryHash(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash strin
 	return salida, nil
 }
 
-//QueryPossibles from the database
+// QueryPossibles from the database
 func QueryPossibles(db *sql.DB, debug bool, verbose bool, sql string, hash string) (string, error) {
 	salida := ""
 
@@ -763,7 +763,7 @@ func QueryPossibles(db *sql.DB, debug bool, verbose bool, sql string, hash strin
 	return salida, nil
 }
 
-//QueryProjects from  the database projects table
+// QueryProjects from  the database projects table
 func QueryProjects(db *sql.DB, debug bool, verbose bool, sql string, nombre string) (string, error) {
 	salida := ""
 
@@ -794,7 +794,7 @@ func QueryProjects(db *sql.DB, debug bool, verbose bool, sql string, nombre stri
 	return salida, nil
 }
 
-//QueryIP SELECT from the database ip table
+// QueryIP SELECT from the database ip table
 func QueryIP(db *sql.DB, debug bool, verbose bool, sql string, ip string) (string, error) {
 	salida := ""
 
@@ -824,7 +824,7 @@ func QueryIP(db *sql.DB, debug bool, verbose bool, sql string, ip string) (strin
 	return salida, nil
 }
 
-//QueryMonitor SELECT from the database monitor table
+// QueryMonitor SELECT from the database monitor table
 func QueryMonitor(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash string, user string) (string, error) {
 	salida := ""
 
@@ -862,7 +862,7 @@ func QueryMonitor(db *sql.DB, debug bool, verbose bool, sqlQuery string, hash st
 	return salida, nil
 }
 
-//QueryCount from the database hash table
+// QueryCount from the database hash table
 func QueryCount(db *sql.DB, debug bool, verbose bool) (string, error) {
 	salida := ""
 
@@ -886,7 +886,7 @@ func QueryCount(db *sql.DB, debug bool, verbose bool) (string, error) {
 	return salida, nil
 }
 
-//QueryAlert from the database
+// QueryAlert from the database
 func QueryAlert(db *sql.DB, debug bool, verbose bool, sql string, ip string, user string) (string, error) {
 	salida := ""
 
@@ -926,7 +926,7 @@ func QueryAlert(db *sql.DB, debug bool, verbose bool, sql string, ip string, use
 	return salida, nil
 }
 
-//GetMonitor from the database
+// GetMonitor from the database
 func GetMonitor(db *sql.DB, debug bool, verbose bool, projectName string) ([]string, error) {
 	var infohashes []string
 	rows, err := db.Query("SELECT hash FROM monitor where \"projectName\"='" + projectName + "'")
