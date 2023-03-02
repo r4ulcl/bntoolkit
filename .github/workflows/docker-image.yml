@@ -32,5 +32,5 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: raulcalvolaorden/bntoolkit:latest,raulcalvolaorden/bntoolkit:main
+          tags: r4ulcl/bntoolkit:latest,r4ulcl/bntoolkit:main
           
